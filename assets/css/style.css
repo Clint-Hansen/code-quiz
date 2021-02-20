@@ -122,6 +122,10 @@ header p {
     background-color: red;
 }
 
-.align-left {
-    text-align: left;
+.text-correct {
+    color: green;
+}
+
+.text-wrong {
+    color: red;
 }

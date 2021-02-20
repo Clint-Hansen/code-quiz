@@ -1,4 +1,4 @@
-
+let highScoresEl = document.querySelector(".highscores-container")
 let timeRemain = document.querySelector(".time-left");
 let startButton = document.querySelector("#start-btn");
 let nextButton = document.querySelector("#next-btn");
@@ -8,6 +8,8 @@ let introText = document.querySelector(".question-content")
 let answerList = document.querySelector(".answer-content")
 let theTimer = timeRemain.textContent;
 let startGameFlag = false;
+let highScoreBtn = document.querySelector('.view-highscores')
+let questionCount = 0;
 
 let questions = [
     {
@@ -67,6 +69,7 @@ let questions = [
 ]
 
 startButton.addEventListener('click', gameStart);
+highScoreBtn.addEventListener('click', displayHighscores);
 
 
 
@@ -83,6 +86,7 @@ function gameStart() {
 
 function getNextQuestion() {
     revealQuestion(randomQuestions[questionIndex])
+    questionCount++;
 };
 
 function revealQuestion(theQuestion) {
@@ -108,6 +112,9 @@ function questionChoice(event) {
     })
     if (randomQuestions.length > questionIndex + 1) {
         questionIndex++;
+    }
+    if (questionCount > questions.length) {
+        gameEnd();
     }
     setTimeout(() => { getNextQuestion(); }, 1000);
 
@@ -139,8 +146,6 @@ function gameTimer() {
         theTimer = 0;
         reloadGame();
         setTimeout(() => {location.reload(); }, 2000);
-        
-        
     }
     timeRemain.innerHTML = theTimer;
 }
@@ -154,4 +159,24 @@ var intervalId = window.setInterval(function(){
 function reloadGame() {
     clearQuestionList();
     questionText.textContent = "You ran out of time.  Please try again!"
+}
+
+function gameEnd() {
+   let name = prompt("Please enter your initials to save your high-score!");
+    let score = theTimer;
+    let highscore = 0;
+    localStorage.setItem("highscore", 0);
+    if (score > (localStorage.getItem("highscore"))) {
+        localStorage.setItem("highscore", name + ' : ' + score);
+    }
+    
+}
+
+function displayHighscores() {
+    let getScore = localStorage.getItem("highscore");
+    console.log(getScore);
+    let showScore = document.createElement("p");
+    showScore.innerText = getScore;
+    highScoresEl.appendChild(showScore);
+    
 }

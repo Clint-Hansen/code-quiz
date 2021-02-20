@@ -6,7 +6,8 @@ let nextButton = document.querySelector("#next-btn");
 let questionText = document.querySelector('.quiz-title');
 let introText = document.querySelector(".question-content")
 let answerList = document.querySelector(".answer-content")
-
+let theTimer = timeRemain.textContent;
+let startGameFlag = false;
 
 let questions = [
     {
@@ -70,13 +71,14 @@ startButton.addEventListener('click', gameStart);
 
 
 function gameStart() {
-startButton.classList.add('hidden');
-answerList.classList.remove('hidden');
-introText.classList.add('hidden');
-randomQuestions = questions.sort(() => Math.random() - .5);
-questionIndex = 0;
+    startGameFlag = true;
+    startButton.classList.add('hidden');
+    answerList.classList.remove('hidden');
+    introText.classList.add('hidden');
+    randomQuestions = questions.sort(() => Math.random() - .5);
+    questionIndex = 0;
 
-getNextQuestion();
+    getNextQuestion();
 };
 
 function getNextQuestion() {
@@ -84,12 +86,13 @@ function getNextQuestion() {
 };
 
 function revealQuestion(theQuestion) {
-questionText.textContent = theQuestion.question;
-theQuestion.choice.forEach(answerSelection => {
-let answerButton = document.createElement('p');
-answerButton.textContent = answerSelection.answer;
-answerButton.className = "answer-text";
-if (answerSelection.correct) {
+    clearQuestionList();
+    questionText.textContent = theQuestion.question;
+    theQuestion.choice.forEach(answerSelection => {
+    let answerButton = document.createElement('p');
+    answerButton.textContent = answerSelection.answer;
+    answerButton.className = "answer-text";
+    if (answerSelection.correct) {
     answerButton.dataset.correct = answerSelection.correct;
 }
 answerButton.addEventListener('click', questionChoice)
@@ -105,7 +108,10 @@ function questionChoice(event) {
     })
     if (randomQuestions.length > questionIndex + 1) {
         questionIndex++;
-}
+    }
+    setTimeout(() => { getNextQuestion(); }, 1000);
+
+    
 };
 
 function setStatusClass(element, correct) {
@@ -121,4 +127,31 @@ function setStatusClass(element, correct) {
 function clearStatusClass(element) {
     element.classList.remove("answer-correct");
     element.classList.remove("answer-wrong");
+}
+
+function clearQuestionList() {
+    answerList.innerHTML = "";
+}
+
+function gameTimer() {
+    theTimer -= 1;
+    if (theTimer <= 0) {
+        theTimer = 0;
+        reloadGame();
+        setTimeout(() => {location.reload(); }, 2000);
+        
+        
+    }
+    timeRemain.innerHTML = theTimer;
+}
+
+var intervalId = window.setInterval(function(){
+    if (startGameFlag) {
+        gameTimer();
+    }
+    }, 1000);
+  
+function reloadGame() {
+    clearQuestionList();
+    questionText.textContent = "You ran out of time.  Please try again!"
 }

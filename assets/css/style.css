@@ -21,11 +21,14 @@ header p {
     font-weight: bold;
     font-size: 18px;
     padding: 10px 10px 7px 10px;
-    margin-bottom: 30px;
 }
 
 .view-highscores {
+    font-weight: bold;
+    font-size: 18px;
+    text-decoration: none;
     color: royalblue;
+    padding: 10px 10px 7px 10px;
 }
 
 .view-highscores:hover {
@@ -34,7 +37,11 @@ header p {
     cursor: pointer;
 }
 
-.time-left span {
+.timer {
+    color: black;
+}
+
+.time-left{
     color: red;
 }
 
@@ -43,15 +50,16 @@ header p {
     justify-content: center;
     align-content: center;
     flex-direction: column;
-    min-height: 80vh;
+    width: 100vw;
+    height: 80vh;
     text-align: center;
     padding: 20px;
-    border: solid lightblue 3px;
-    margin: 0 20px;
+    margin: 0 auto;
 }
 
-.question-title {
-    margin-bottom: 30px;
+.quiz-title {
+    width: 100vw;
+    margin:0 auto 30px auto;
     font-size: 40px;
     color: blue;
 }
@@ -59,23 +67,61 @@ header p {
 .question-content {
     font-size: 20px;
     line-height: 4vh;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
 }
 
-.start-btn {
+#answer-content {
+    font-size: 20px;
+    line-height: 2.5rem;
+    width: 40vw;
+    margin: 0  auto;
+}
+
+.answer-text {
+    background-color: royalblue;
+    margin: 1rem;
+    border: solid 2px yellow;
+    border-radius: 5px;
+    padding: .5rem;
+}
+
+.answer-text:hover {
+    cursor: pointer;
+}
+
+.start-btn, .next-btn {
+    text-decoration: none;
     background-color: yellow;
     color: royalblue;
     font-weight: bold;
-    width: 10%;
+    width: 10rem;
     padding: 15px 10px;
     align-self: center;
     border-radius: 5px;
     outline: none;
     font-size: 18px;
+    border: solid 2px royalblue;
+    margin: 5px;
 }
 
-.start-btn:hover {
+.start-btn:hover, .next-btn:hover {
     background-color: royalblue;
     color: yellow;
     cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.answer-correct {
+    background-color: green;
+}
+
+.answer-wrong {
+    background-color: red;
+}
+
+.align-left {
+    text-align: left;
 }

@@ -5,23 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <script src="./assets/js/script.js" defer></script>
     <title>Code Quiz</title>
 </head>
 <body>
     <header>
         <p class="view-highscores">VIEW THE HIGH SCORES!</p>
-        <p class="time-left" id="timer">Time Left: <span>75</span></p>
+        <p class="timer">Time Left: <span class="time-left">75</span></p>
     </header>
     <main class="quiz-container" id="quiz-container">
-        <h1 class="question-title">Coding Quiz Challenge</h1>
-        <div class="question-content">
+        <h1 class="quiz-title">Coding Quiz Challenge</h1>
+        <div id="intro" class="question-content">
             <p>Answer the multiple-choice questions in the given time.
             <p>Careful! Incorrect answers will deduct 10 seconds from your score and time.</p>
             <p>Press the button below when you are ready to start the challenge!</p>
         </div>
-        <button class="start-btn">Start Quiz!</button>
+        <div id="answer-content" class="answer-content hidden">
+            
+        </div>
+        <div class="buttons">
+            <button id="start-btn" class="start-btn">Start Quiz!</button>
+            <button id="next-btn" class="next-btn hidden">Next Question</button>
+        </div>
     </main>
-    
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>

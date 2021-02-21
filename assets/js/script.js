@@ -3,6 +3,7 @@ let timeRemain = document.querySelector(".time-left");
 let startButton = document.querySelector("#start-btn");
 let nextButton = document.querySelector("#next-btn");
 
+
 let questionText = document.querySelector('.quiz-title');
 let introText = document.querySelector(".question-content")
 let answerList = document.querySelector(".answer-content")
@@ -97,6 +98,7 @@ function revealQuestion(theQuestion) {
     answerButton.textContent = answerSelection.answer;
     answerButton.className = "answer-text";
     if (answerSelection.correct) {
+        console.log("here")
     answerButton.dataset.correct = answerSelection.correct;
 }
 answerButton.addEventListener('click', questionChoice)
@@ -110,14 +112,18 @@ function questionChoice(event) {
     Array.from(answerList.children).forEach(button =>{
         setStatusClass(button, button.dataset.correct)
     })
+    setTimeout(() => { getNextQuestion(); }, 1000);
+
+    if (typeof correct === "undefined") {
+        theTimer -=10;
+    }
+
     if (randomQuestions.length > questionIndex + 1) {
         questionIndex++;
     }
     if (questionCount > questions.length) {
         gameEnd();
     }
-    setTimeout(() => { getNextQuestion(); }, 1000);
-
     
 };
 
@@ -129,6 +135,7 @@ function setStatusClass(element, correct) {
     else {
         element.classList.add("answer-wrong");
     }
+    
 }
 
 function clearStatusClass(element) {
@@ -162,14 +169,23 @@ function reloadGame() {
 }
 
 function gameEnd() {
-   let name = prompt("Please enter your initials to save your high-score!");
+    startGameFlag = false;
+    clearQuestionList();
+    questionText.textContent = "Game Over!"
+    setTimeout(() => {saveHighscore(); }, 1000);
+    startButton.classList.remove('hidden');
+    startButton.textContent = "Restart Quiz";
+    return;
+}
+
+function saveHighscore() {
+    let name = prompt("Please enter your initials to save your high-score!");
     let score = theTimer;
     let highscore = 0;
     localStorage.setItem("highscore", 0);
     if (score > (localStorage.getItem("highscore"))) {
         localStorage.setItem("highscore", name + ' : ' + score);
-    }
-    
+}
 }
 
 function displayHighscores() {
@@ -178,5 +194,4 @@ function displayHighscores() {
     let showScore = document.createElement("p");
     showScore.innerText = getScore;
     highScoresEl.appendChild(showScore);
-    
 }

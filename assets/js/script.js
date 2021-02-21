@@ -45,24 +45,24 @@ let questions = [
         
     },
     {
-        question: 'What is 3 + 1?',
+        question: 'Which of these values is NOT considered false?',
         choice:
         [
-            {answer: '2'},
-            {answer: '4', correct: true},
-            {answer: '8'},
-            {answer: '3'},
+            {answer: '0'},
+            {answer: '"0"', correct: true},
+            {answer: 'null'},
+            {answer: '""'},
         ]
         
     },
     {
-        question: 'What is 1 + 1?',
+        question: 'Which statement correctly stores data into the Web Storage API?',
         choice:
         [
-            {answer: '2', correct: true},
-            {answer: '4'},
-            {answer: '8'},
-            {answer: '3'},
+            {answer: 'localStorage.setItem("lunch", "sandwich");', correct: true},
+            {answer: 'localStorage.getItem("lunch", "sandwich");'},
+            {answer: 'getItem.localStorage.("lunch", "sandwich");'},
+            {answer: 'setItem.localStorage("lunch", "sandwich");'},
         ]
         
         
@@ -117,12 +117,14 @@ function questionChoice(event) {
     if (typeof correct === "undefined") {
         theTimer -=10;
     }
+    
+    if (questionCount > questions.length) {
+        
+        gameEnd();
+    }
 
     if (randomQuestions.length > questionIndex + 1) {
         questionIndex++;
-    }
-    if (questionCount > questions.length) {
-        gameEnd();
     }
     
 };
@@ -169,13 +171,13 @@ function reloadGame() {
 }
 
 function gameEnd() {
-    startGameFlag = false;
-    clearQuestionList();
+    clearQuestionList
     questionText.textContent = "Game Over!"
-    setTimeout(() => {saveHighscore(); }, 1000);
     startButton.classList.remove('hidden');
     startButton.textContent = "Restart Quiz";
-    return;
+    startGameFlag = false;
+    saveHighscore();
+    
 }
 
 function saveHighscore() {
@@ -185,8 +187,8 @@ function saveHighscore() {
     localStorage.setItem("highscore", 0);
     if (score > (localStorage.getItem("highscore"))) {
         localStorage.setItem("highscore", name + ' : ' + score);
-}
-}
+    }
+}  
 
 function displayHighscores() {
     let getScore = localStorage.getItem("highscore");

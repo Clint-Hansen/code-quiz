@@ -1,13 +1,12 @@
 let highScoresEl = document.querySelector(".highscores-container")
 let timeRemain = document.querySelector(".time-left");
 let startButton = document.querySelector("#start-btn");
-let nextButton = document.querySelector("#next-btn");
-
 
 let questionText = document.querySelector('.quiz-title');
 let introText = document.querySelector(".question-content")
 let answerList = document.querySelector(".answer-content")
 let theTimer = timeRemain.textContent;
+let gameOver = false;
 let startGameFlag = false;
 let highScoreBtn = document.querySelector('.view-highscores')
 let questionCount = 0;
@@ -63,10 +62,8 @@ let questions = [
             {answer: 'localStorage.getItem("lunch", "sandwich");'},
             {answer: 'getItem.localStorage.("lunch", "sandwich");'},
             {answer: 'setItem.localStorage("lunch", "sandwich");'},
-        ]
-        
-        
-}
+        ]   
+    }
 ]
 
 startButton.addEventListener('click', gameStart);
@@ -75,7 +72,9 @@ highScoreBtn.addEventListener('click', displayHighscores);
 
 
 function gameStart() {
+    gameOver = false;
     startGameFlag = true;
+    highScoreBtn.classList.add('hidden')
     startButton.classList.add('hidden');
     answerList.classList.remove('hidden');
     introText.classList.add('hidden');
@@ -86,8 +85,10 @@ function gameStart() {
 };
 
 function getNextQuestion() {
-    revealQuestion(randomQuestions[questionIndex])
-    questionCount++;
+    if(gameOver == false){
+        revealQuestion(randomQuestions[questionIndex])
+        questionCount++;
+    }
 };
 
 function revealQuestion(theQuestion) {
@@ -98,7 +99,6 @@ function revealQuestion(theQuestion) {
     answerButton.textContent = answerSelection.answer;
     answerButton.className = "answer-text";
     if (answerSelection.correct) {
-        console.log("here")
     answerButton.dataset.correct = answerSelection.correct;
 }
 answerButton.addEventListener('click', questionChoice)
@@ -118,9 +118,9 @@ function questionChoice(event) {
         theTimer -=10;
     }
     
-    if (questionCount > questions.length) {
+    if (questionCount + 1 > questions.length) {
+        setTimeout(() => {gameOver = gameEnd(); }, 1000);
         
-        gameEnd();
     }
 
     if (randomQuestions.length > questionIndex + 1) {
@@ -171,13 +171,9 @@ function reloadGame() {
 }
 
 function gameEnd() {
-    clearQuestionList
-    questionText.textContent = "Game Over!"
-    startButton.classList.remove('hidden');
-    startButton.textContent = "Restart Quiz";
-    startGameFlag = false;
-    saveHighscore();
-    
+   saveHighscore();
+   endScreen();
+    return true;
 }
 
 function saveHighscore() {
@@ -196,4 +192,11 @@ function displayHighscores() {
     let showScore = document.createElement("p");
     showScore.innerText = getScore;
     highScoresEl.appendChild(showScore);
+}
+
+function endScreen() {
+    clearQuestionList();
+    questionText.textContent = "The Quiz is Over!"
+    startGameFlag = false;
+    setTimeout(() => {location.reload(); }, 3000);
 }
